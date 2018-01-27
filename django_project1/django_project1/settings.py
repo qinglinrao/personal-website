@@ -25,7 +25,7 @@ SECRET_KEY = 'j*l6fjd^h559=p=%_a)@4mw1bt60zu&+v6bql#8c$l%*69$b_+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['www.raoqinglin.com', '47.52.165.158']
 
 
 # Application definition
@@ -73,13 +73,25 @@ WSGI_APPLICATION = 'django_project1.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
+#}
 
+# 修改默认的数据库--20180127
+
+DATABASES = {
+        'default':{
+            'ENGINE':'django.db.backends.mysql',
+            'NAME':'django',
+            'USER':'root',
+            'PASSWORD':'',
+            'HOST':'127.0.0.1',
+            'PORT':'3306',
+            }
+        }
 
 # Password validation
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
