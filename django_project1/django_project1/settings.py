@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 添加新建的应用名称-2018-01-28
+    'app1'
 ]
 
 MIDDLEWARE = [
@@ -87,7 +89,7 @@ DATABASES = {
             'ENGINE':'django.db.backends.mysql',
             'NAME':'django',
             'USER':'root',
-            'PASSWORD':'',
+            'PASSWORD':'MariaDB8628912R',
             'HOST':'127.0.0.1',
             'PORT':'3306',
             }

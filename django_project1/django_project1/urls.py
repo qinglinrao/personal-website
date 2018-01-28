@@ -16,6 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+# 新增一个应用的页面
+from app1 import views as app1_views
+
 urlpatterns = [
+    # 新增一个应用的页面
+    path('', app1_views.index),
     path('admin/', admin.site.urls),
 ]
