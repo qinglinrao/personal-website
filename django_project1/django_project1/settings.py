@@ -25,7 +25,7 @@ SECRET_KEY = 'j*l6fjd^h559=p=%_a)@4mw1bt60zu&+v6bql#8c$l%*69$b_+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.raoqinglin.com', '47.52.165.158']
+ALLOWED_HOSTS = ['www.raoqinglin.com', 'raoqinglin.com', '0.0.0.0','*','127.0.0.1',  '47.52.165.158']
 
 
 # Application definition
