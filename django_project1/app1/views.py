@@ -10,5 +10,5 @@ def index(request):
     string = "模板测试变量"
 
     print('controller刷新测试')
-
+    print('测试Debug模式自动刷新')
     return render(request, 'index.html', {'string': string})
