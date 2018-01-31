@@ -8,4 +8,7 @@ def index(request):
     
     # 使用视图模板
     string = "模板测试变量"
+
+    print('controller刷新测试')
+
     return render(request, 'index.html', {'string': string})
