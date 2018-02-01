@@ -7,8 +7,5 @@ def index(request):
     # return HttpResponse(u"第一个app应用2222！")
     
     # 使用视图模板
-    string = "模板测试变量"
-
-    print('controller刷新测试')
-    print('测试Debug模式自动刷新')
+    string = "谢谢雷经理，这个是我的简历。"
     return render(request, 'index.html', {'string': string})
