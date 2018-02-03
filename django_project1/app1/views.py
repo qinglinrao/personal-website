@@ -9,3 +9,9 @@ def index(request):
     # 使用视图模板
     string = "谢谢雷经理，这个是我的简历。"
     return render(request, 'index.html', {'string': string})
+
+def detail(request):
+    
+    # 使用视图模板
+    string = "谢谢雷经理，这个是我的简历。"
+    return render(request, 'detail.html', {'string': string})

@@ -22,5 +22,6 @@ from app1 import views as app1_views
 urlpatterns = [
     # 新增一个应用的页面
     path('', app1_views.index),
+    path('detail/', app1_views.detail),
     path('admin/', admin.site.urls),
 ]
