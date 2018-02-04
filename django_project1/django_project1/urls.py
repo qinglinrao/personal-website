@@ -24,4 +24,6 @@ urlpatterns = [
     path('', app1_views.index),
     path('detail/', app1_views.detail),
     path('admin/', admin.site.urls),
+    # 注册
+    path('action_register/', app1_views.action_register)
 ]
