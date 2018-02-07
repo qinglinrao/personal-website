@@ -27,3 +27,4 @@ urlpatterns = [
     # 注册
     path('action_register/', app1_views.action_register)
 ]
+
