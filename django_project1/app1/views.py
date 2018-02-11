@@ -27,5 +27,5 @@ def detail(request):
 
 
 def action_register(request):
-    print('注册操作')
-    return render(request, 'index.html')
+    resp = {'errorcode': 100, 'detail': 'Get success'}
+    return HttpResponse(json.dumps(resp), content_type="application/json")
