@@ -215,6 +215,7 @@
 			  </div>
 
 				<form class="form-horizontal" role="form" action="/add/" method="get">
+					{% csrf_token %}
 					<div class="form-group">
 						<label for="email" class="col-sm-2 control-label">邮箱</label>
 						<div class="col-sm-10">
@@ -249,16 +250,16 @@
 
 <script>
 
-	alert(5555);
 	$('#register_action').click(function () {
-
+			var token = $.cookie('csrftoken');
 	    	$.ajax({
 				type: "POST",
-				url: "action_register",
+				url: "action_register/",
 				data: {email: $('#email').val(), user_name: $('#user_name').val(), pwd: $('#pwd').val()},
 				dataType: "json",
+				headers:{'X-CSRFToken': token},
 				success: function (data) {
-					alert(data);
+					alert(data.code);
                 }
 			})
     	}

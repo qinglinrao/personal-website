@@ -1,7 +1,12 @@
 # coding:utf-8
 
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+
+# from __future__ import unicode_literals
+import json
+from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
 
 def index(request):
     # return HttpResponse(u"第一个app应用2222！")
@@ -25,7 +30,20 @@ def detail(request):
     string = "谢谢雷经理，这个是我的简历。"
     return render(request, 'detail.html', {'string': string})
 
-
+@csrf_protect
 def action_register(request):
-    resp = {'errorcode': 100, 'detail': 'Get success'}
-    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
+    if request.method == 'POST':
+        # List = ['自强学堂', '渲染Json到模板']
+        # Data = {'site': '自强学堂', 'author': '涂伟忠'}
+        # return render(request, 'index.html', {
+            # 'List': json.dumps(List),
+            # 'Data': json.dumps(Data)
+        # })
+        data = {'code': '1', 'res': '注册成功1！'}
+        for key in request.POST:
+            print(key)
+        return JsonResponse(data)
+    data = {'code': '1', 'res': '注册成功2！'}
+    return JsonResponse(data)
