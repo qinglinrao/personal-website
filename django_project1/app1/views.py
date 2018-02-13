@@ -4,7 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 # from __future__ import unicode_literals
-import json
+import json, re
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 
@@ -35,15 +35,34 @@ def action_register(request):
 
 
     if request.method == 'POST':
-        # List = ['自强学堂', '渲染Json到模板']
-        # Data = {'site': '自强学堂', 'author': '涂伟忠'}
-        # return render(request, 'index.html', {
-            # 'List': json.dumps(List),
-            # 'Data': json.dumps(Data)
-        # })
+
+        email = request.POST['email']
+        user_name = request.POST['user_name']
+        pwd = request.POST['pwd']
+
+        if not email or not user_name or not pwd:
+            return JsonResponse({'code': '-1', 'res': '缺少参数'})
+
+        if len(user_name) < 5:
+            return JsonResponse({'code': '-1', 'res': '用户名过短'})
+
+        if len(pwd) < 5:
+            return JsonResponse({'code': '-1', 'res': '密码长度不够'})
+
+        print('判断邮箱：%s' % validateEmail(email))
+
+
         data = {'code': '1', 'res': '注册成功1！'}
         for key in request.POST:
             print(key)
         return JsonResponse(data)
     data = {'code': '1', 'res': '注册成功2！'}
     return JsonResponse(data)
+
+# 判断邮箱格式
+def validateEmail(email):
+    if len(email) > 7:
+        if re.match("^.+\\@(\\[?)[a-zA-Z0-9\\-\\.]+\\.([a-zA-Z]{2,3}|[0-9]{1,3})(\\]?)$", email) != None:
+            return 1
+        return 0
+    return 0

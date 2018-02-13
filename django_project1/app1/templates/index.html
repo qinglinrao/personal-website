@@ -190,7 +190,7 @@
 					<div class="form-group">
 						<label for="password" class="col-sm-2 control-label">密码</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="password"
+							<input type="password" class="form-control" id="password"
 								   placeholder="请输入密码">
 						</div>
 					</div>
@@ -233,7 +233,7 @@
 					<div class="form-group">
 						<label for="pwd" class="col-sm-2 control-label">密码</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="pwd"
+							<input type="password" class="form-control" id="pwd"
 								   placeholder="请输入密码">
 						</div>
 					</div>
@@ -252,10 +252,22 @@
 
 	$('#register_action').click(function () {
 			var token = $.cookie('csrftoken');
+			var email = $('#email').val();
+			var user_name = $('#user_name').val();
+			var pwd = $('#pwd').val();
+			if(!email){
+			    alert("邮箱不能为空。");return;
+			}
+			if(!user_name){
+			    alert("昵称不能为空。");return;
+			}
+			/*if(!pwd){
+			    alert("密码不能为空。");return;
+			}*/
 	    	$.ajax({
 				type: "POST",
 				url: "action_register/",
-				data: {email: $('#email').val(), user_name: $('#user_name').val(), pwd: $('#pwd').val()},
+				data: {email: email, user_name: user_name, pwd: pwd},
 				dataType: "json",
 				headers:{'X-CSRFToken': token},
 				success: function (data) {
