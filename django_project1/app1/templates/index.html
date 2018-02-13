@@ -261,9 +261,9 @@
 			if(!user_name){
 			    alert("昵称不能为空。");return;
 			}
-			/*if(!pwd){
+			if(!pwd){
 			    alert("密码不能为空。");return;
-			}*/
+			}
 	    	$.ajax({
 				type: "POST",
 				url: "action_register/",
@@ -271,7 +271,11 @@
 				dataType: "json",
 				headers:{'X-CSRFToken': token},
 				success: function (data) {
-					alert(data.code);
+				    if(data.code == 1){
+				        alert(data.msg);
+				        location.reload();return;
+					}
+					alert(data.msg);
                 }
 			})
     	}

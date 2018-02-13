@@ -7,6 +7,7 @@ from django.shortcuts import render
 import json, re
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
+from app1.models import User
 
 def index(request):
     # return HttpResponse(u"第一个app应用2222！")
@@ -41,23 +42,25 @@ def action_register(request):
         pwd = request.POST['pwd']
 
         if not email or not user_name or not pwd:
-            return JsonResponse({'code': '-1', 'res': '缺少参数'})
+            return JsonResponse({'code': '-1', 'msg': '缺少参数'})
 
         if len(user_name) < 5:
-            return JsonResponse({'code': '-1', 'res': '用户名过短'})
+            return JsonResponse({'code': '-1', 'msg': '用户名过短'})
 
         if len(pwd) < 5:
-            return JsonResponse({'code': '-1', 'res': '密码长度不够'})
+            return JsonResponse({'code': '-1', 'msg': '密码长度不够'})
 
-        print('判断邮箱：%s' % validateEmail(email))
+        if not validateEmail(email):
+            return JsonResponse({'code': '-1', 'msg': '邮箱格式错误'})
 
+        User.objects.create(name=user_name, email=email, password=pwd)
 
-        data = {'code': '1', 'res': '注册成功1！'}
-        for key in request.POST:
-            print(key)
-        return JsonResponse(data)
-    data = {'code': '1', 'res': '注册成功2！'}
-    return JsonResponse(data)
+        res = {'code': '1', 'msg': '注册成功！'}
+        # for key in request.POST:
+        #     print(key)
+        return JsonResponse(res)
+    res = {'code': '1', 'msg': '注册成功2！'}
+    return JsonResponse(res)
 
 # 判断邮箱格式
 def validateEmail(email):
