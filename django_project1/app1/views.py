@@ -8,6 +8,8 @@ import json, re
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from app1.models import User
+import json, hashlib
+import time
 
 def index(request):
     # return HttpResponse(u"第一个app应用2222！")
@@ -53,7 +55,10 @@ def action_register(request):
         if not validateEmail(email):
             return JsonResponse({'code': '-1', 'msg': '邮箱格式错误'})
 
-        User.objects.create(name=user_name, email=email, password=pwd)
+        t = time.time()
+        t = int(t)
+
+        User.objects.create(name=user_name, email=email, password=md5(pwd), ip=get_client_ip(request), add_time=t)
 
         res = {'code': '1', 'msg': '注册成功！'}
         # for key in request.POST:
@@ -69,3 +74,18 @@ def validateEmail(email):
             return 1
         return 0
     return 0
+
+# md5加密
+def md5(s):
+    mdb_object = hashlib.md5()
+    mdb_object.update(s.encode("utf-8"))
+    return mdb_object.hexdigest()
+
+# 获取ip地址
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[-1].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip

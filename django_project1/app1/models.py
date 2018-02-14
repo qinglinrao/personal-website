@@ -7,4 +7,6 @@ class User(models.Model):
     name = models.CharField(max_length=30)
     email = models.CharField(max_length=60)
     password = models.CharField(max_length=100)
+    ip = models.CharField(max_length=100)
+    add_time = models.IntegerField()
 

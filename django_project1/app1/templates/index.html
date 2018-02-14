@@ -9,7 +9,7 @@
 		  <div class="text-muted">与世界分享我的知识</div>
 		  <br>
 		  <br>
-		  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#register">
+		  <button type="button" id="button_register" class="btn btn-primary" data-toggle="modal" data-target="#register">
 		 注册
 		</button>
 	  </div>
@@ -273,7 +273,10 @@
 				success: function (data) {
 				    if(data.code == 1){
 				        alert(data.msg);
-				        location.reload();return;
+				        $('#button_register').hide();
+				        $('#button_login').hide();
+				        //location.reload();
+						return;
 					}
 					alert(data.msg);
                 }
