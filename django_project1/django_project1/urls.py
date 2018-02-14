@@ -25,6 +25,8 @@ urlpatterns = [
     path('detail/', app1_views.detail),
     path('admin/', admin.site.urls),
     # 注册
-    path('action_register/', app1_views.action_register)
+    path('action_register/', app1_views.action_register),
+    # 登陆
+    path('action_login/', app1_views.action_login)
 ]
 

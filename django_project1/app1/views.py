@@ -67,6 +67,37 @@ def action_register(request):
     res = {'code': '1', 'msg': '注册成功2！'}
     return JsonResponse(res)
 
+@csrf_protect
+def action_login(request):
+
+
+    if request.method == 'POST':
+
+        user_name = request.POST['user_name']
+        pwd = request.POST['password']
+
+        if not user_name or not pwd:
+            return JsonResponse({'code': '-1', 'msg': '缺少参数'})
+
+        t = time.time()
+        t = int(t)
+
+        # res = User.objects.get(name=user_name, password=md5(pwd))
+        res = User.objects.filter(name=user_name, password=md5(pwd))
+        print('用户：%s' % res)
+        if(res):
+            # User = User(token="xxxx", update_time="tuweizhong@163.com")
+            # User.save()
+
+            res = {'code': '1', 'msg': '登陆成功！'}
+            return JsonResponse(res)
+        else:
+            res = {'code': '-1', 'msg': '登陆失败！'}
+        return JsonResponse(res)
+
+    res = {'code': '1', 'msg': '登陆成功2！'}
+    return JsonResponse(res)
+
 # 判断邮箱格式
 def validateEmail(email):
     if len(email) > 7:

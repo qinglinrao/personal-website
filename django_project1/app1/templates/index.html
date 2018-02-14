@@ -181,10 +181,10 @@
 
 				<form class="form-horizontal" role="form">
 					<div class="form-group">
-						<label for="username" class="col-sm-2 control-label">邮箱</label>
+						<label for="username" class="col-sm-2 control-label">用户名</label>
 						<div class="col-sm-10">
 							<input type="text" class="form-control" id="username"
-								   placeholder="请输入邮箱">
+								   placeholder="请输入用户名">
 						</div>
 					</div>
 					<div class="form-group">
@@ -198,7 +198,7 @@
 
 					  <div class="modal-footer">
 						<button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
-						<button class="btn btn-primary" type="button">登陆</button>
+						<button id="login_action" class="btn btn-primary" type="button">登陆</button>
 					  </div>
 					</form>
 			</div><!-- /.modal-content -->
@@ -250,6 +250,7 @@
 
 <script>
 
+	// 注册
 	$('#register_action').click(function () {
 			var token = $.cookie('csrftoken');
 			var email = $('#email').val();
@@ -282,6 +283,36 @@
                 }
 			})
     	}
-	)
+	);
+
+	// 登陆
+	$('#login_action').click(function () {
+	    	var token = $.cookie('csrftoken');
+			var username = $('#username').val();
+			var password = $('#password').val();
+			if(!username){
+			    alert("昵称不能为空。");return;
+			}
+			if(!pwd){
+			    alert("密码不能为空。");return;
+			}
+	    	$.ajax({
+				type: "POST",
+				url: "action_login/",
+				data: {user_name: username, password: password},
+				dataType: "json",
+				headers:{'X-CSRFToken': token},
+				success: function (data) {
+				    if(data.code == 1){
+				        alert(data.msg);
+				        // $('#button_register').hide();
+				        // $('#button_login').hide();
+				        //location.reload();
+						return;
+					}
+					alert(data.msg);
+                }
+			})
+    	});
 </script>
 {% endblock %}
