@@ -4,12 +4,15 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 # from __future__ import unicode_literals
-import json, re
+import json, re, sys
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
 from app1.models import User
 import json, hashlib
 import time
+import random, uuid
+sys.path.append('/var/www/html/django_project1/app1/')
+from config import USER_SALT
 
 def index(request):
     # return HttpResponse(u"第一个app应用2222！")
@@ -58,7 +61,7 @@ def action_register(request):
         t = time.time()
         t = int(t)
 
-        User.objects.create(name=user_name, email=email, password=md5(pwd), ip=get_client_ip(request), add_time=t)
+        User.objects.create(name=user_name, email=email, password=md5(str(md5(pwd)) + USER_SALT), ip=get_client_ip(request), add_time=t, last_time=t)
 
         res = {'code': '1', 'msg': '注册成功！'}
         # for key in request.POST:
@@ -81,12 +84,16 @@ def action_login(request):
 
         t = time.time()
         t = int(t)
-
-        # res = User.objects.get(name=user_name, password=md5(pwd))
-        res = User.objects.filter(name=user_name, password=md5(pwd))
+        print('tttttttttttttttttttttttttttt')
+        password = md5(str(md5(pwd)) + USER_SALT)
+        print('password = %s' % password)
+        res = User.objects.filter(name=user_name, password=password)
         print('用户：%s' % res)
         if(res):
-            # User = User(token="xxxx", update_time="tuweizhong@163.com")
+            # rand_num = random.randint(100000, 999999)
+            # token = uuid.uuid5(uuid.NAMESPACE_DNS, str(rand_num))
+            #
+            # User = User(token=token, last_time=t)
             # User.save()
 
             res = {'code': '1', 'msg': '登陆成功！'}
