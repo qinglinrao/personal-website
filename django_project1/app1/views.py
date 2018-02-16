@@ -12,7 +12,10 @@ import json, hashlib
 import time
 import random, uuid
 sys.path.append('/var/www/html/django_project1/app1/')
-from config import USER_SALT
+from config import USER_SALT, REDIS_WEB_PREFIX
+# from redis.config import Redis
+# 上面的写法加载不了 --todo
+from app1.redis.config import Redis
 
 def index(request):
     # return HttpResponse(u"第一个app应用2222！")
@@ -73,7 +76,6 @@ def action_register(request):
 @csrf_protect
 def action_login(request):
 
-
     if request.method == 'POST':
 
         user_name = request.POST['user_name']
@@ -81,6 +83,24 @@ def action_login(request):
 
         if not user_name or not pwd:
             return JsonResponse({'code': '-1', 'msg': '缺少参数'})
+
+        rand_num = random.randint(100000, 999999)
+        token = uuid.uuid5(uuid.NAMESPACE_DNS, str(rand_num))
+        print('token = %s' % token)
+
+        redis = Redis()
+        redis.link()
+        
+        # 防刷
+        key = REDIS_WEB_PREFIX + str(token)
+
+        redis_token = redis.get(key)
+        print('redis_token = %s' % redis_token)
+        if redis_token:
+            res = {'code': '-1', 'msg': '不能重复提交'}
+            return JsonResponse(res)
+        else:
+            redis.set(key, 10)
 
         t = time.time()
         t = int(t)
@@ -90,11 +110,9 @@ def action_login(request):
         res = User.objects.filter(name=user_name, password=password)
         print('用户：%s' % res)
         if(res):
-            # rand_num = random.randint(100000, 999999)
-            # token = uuid.uuid5(uuid.NAMESPACE_DNS, str(rand_num))
-            #
-            # User = User(token=token, last_time=t)
-            # User.save()
+
+
+            User.objects.filter(name=user_name, password=password).update(token=token, last_time=t)
 
             res = {'code': '1', 'msg': '登陆成功！'}
             return JsonResponse(res)
