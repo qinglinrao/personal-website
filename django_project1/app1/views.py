@@ -91,30 +91,36 @@ def action_login(request):
         redis = Redis()
         redis.link()
         
-        # 防刷
-        key = REDIS_WEB_PREFIX + str(token)
-
+        # 防刷，不能用token，每次访问都不一样的。
+        # key = REDIS_WEB_PREFIX + str(token)
+        key = REDIS_WEB_PREFIX + 'login_' + str(user_name)
+        print('key = %s' % key)
         redis_token = redis.get(key)
         print('redis_token = %s' % redis_token)
         if redis_token:
             res = {'code': '-1', 'msg': '不能重复提交'}
             return JsonResponse(res)
         else:
-            redis.set(key, 10)
+            redis.set(key, 1, 3)
 
         t = time.time()
         t = int(t)
-        print('tttttttttttttttttttttttttttt')
         password = md5(str(md5(pwd)) + USER_SALT)
-        print('password = %s' % password)
+
         res = User.objects.filter(name=user_name, password=password)
         print('用户：%s' % res)
+
         if(res):
 
-
+            for r in res:
+                user_name = r.name
+                user_id = r.id
+                
             User.objects.filter(name=user_name, password=password).update(token=token, last_time=t)
-
-            res = {'code': '1', 'msg': '登陆成功！'}
+            print('user_id = %s' % user_id)
+            print('user_name = %s' % user_name)
+            data = {'user_id':user_id, 'user_name': user_name}
+            res = {'code': '1', 'msg': '登陆成功！', 'data': data}
             return JsonResponse(res)
         else:
             res = {'code': '-1', 'msg': '登陆失败！'}

@@ -274,6 +274,7 @@
 				success: function (data) {
 				    if(data.code == 1){
 				        alert(data.msg);
+				        alert('登陆的用户名是：' + data.data.user_name);
 				        $('#button_register').hide();
 				        $('#button_login').hide();
 				        //location.reload();

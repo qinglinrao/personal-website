@@ -4,7 +4,7 @@
 import redis
 class Redis(object):
 
-    host = 'localhost123'
+    host = 'localhost'
     port = 6379
     redis_link = None
 
