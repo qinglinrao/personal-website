@@ -16,6 +16,7 @@ from config import USER_SALT, REDIS_WEB_PREFIX
 # from redis.config import Redis
 # 上面的写法加载不了 --todo
 from app1.redis.config import Redis
+from http import cookies
 
 def index(request):
     # return HttpResponse(u"第一个app应用2222！")
@@ -28,6 +29,11 @@ def index(request):
             user_name = form.cleaned_data['user_name']
             pwd = form.cleaned_data['user_name']
             return HttpResponse(str(int(email) + int(user_name) + int(pwd)))
+
+
+    # 判断是否登陆
+
+
 
     # 使用视图模板
     string = "谢谢雷经理，这个是我的简历。"
@@ -115,12 +121,20 @@ def action_login(request):
             for r in res:
                 user_name = r.name
                 user_id = r.id
-                
+
             User.objects.filter(name=user_name, password=password).update(token=token, last_time=t)
             print('user_id = %s' % user_id)
             print('user_name = %s' % user_name)
-            data = {'user_id':user_id, 'user_name': user_name}
-            res = {'code': '1', 'msg': '登陆成功！', 'data': data}
+            data = {'user_id':user_id, 'user_name': user_name, 'user_token': token}
+
+            # 保存cookie
+            c = cookies.SimpleCookie()
+            c['is_login'] = 1
+            print('cookie= %s' % c)
+
+
+            res = {'code': 1, 'msg': '登陆成功！', 'data': data}
+
             return JsonResponse(res)
         else:
             res = {'code': '-1', 'msg': '登陆失败！'}

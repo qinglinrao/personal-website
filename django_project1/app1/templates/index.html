@@ -9,8 +9,8 @@
 		  <div class="text-muted">与世界分享我的知识</div>
 		  <br>
 		  <br>
-		  <button type="button" id="button_register" class="btn btn-primary" data-toggle="modal" data-target="#register">
-		 注册
+		  <button type="button" id="button_login" class="btn btn-primary" data-toggle="modal" data-target="#login">
+		 登录
 		</button>
 	  </div>
 	</div>
@@ -240,7 +240,7 @@
 
 
 					  <div class="modal-footer">
-						<button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+						<button data-dismiss="modal" class="btn btn-default" type="button" id="register_close">关闭</button>
 						<button class="btn btn-primary" type="button" id="register_action">注册</button>
 					  </div>
 					</form>
@@ -274,10 +274,9 @@
 				success: function (data) {
 				    if(data.code == 1){
 				        alert(data.msg);
-				        alert('登陆的用户名是：' + data.data.user_name);
 				        $('#button_register').hide();
 				        $('#button_login').hide();
-				        //location.reload();
+				        $('#register_close').click();
 						return;
 					}
 					alert(data.msg);
@@ -305,10 +304,9 @@
 				headers:{'X-CSRFToken': token},
 				success: function (data) {
 				    if(data.code == 1){
-				        alert(data.msg);
-				        // $('#button_register').hide();
-				        // $('#button_login').hide();
-				        //location.reload();
+				        alert('登陆成功！用户名是：' + data.data.user_name);
+//				        $('#button_register').hide();
+//				        $('#button_login').hide();
 						return;
 					}
 					alert(data.msg);
