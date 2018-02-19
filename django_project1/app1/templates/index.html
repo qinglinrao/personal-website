@@ -4,14 +4,18 @@
 	<!-- 展示栏 -->
 	<div class="jumbotron">
 	  <div class="container" align="center">
-		  <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">Hello，World</h2>
+		  <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">Hello，{% for item in user_data %}{{ item.name | default: "World" }}{% endfor %}
+
+</h2>
 		  <br>
 		  <div class="text-muted">与世界分享我的知识</div>
 		  <br>
 		  <br>
+		  {% if not is_login %}
 		  <button type="button" id="button_login" class="btn btn-primary" data-toggle="modal" data-target="#login">
 		 登录
-		</button>
+		  </button>
+		  {% endif %}
 	  </div>
 	</div>
 

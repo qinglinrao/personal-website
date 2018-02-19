@@ -32,12 +32,20 @@ def index(request):
 
 
     # 判断是否登陆
+    is_login = request.session.get('is_login', False)
+    print('is_login = %s' % is_login)
 
+    user_data = None
+    if is_login:
+        user_id = request.session.get('user_id')
+        print('user_id = %s' % user_id)
+        user_data = User.objects.filter(id=user_id)
+        print('user_data：%s' % user_data)
 
 
     # 使用视图模板
     string = "谢谢雷经理，这个是我的简历。"
-    return render(request, 'index.html', {'string': string})
+    return render(request, 'index.html', {'string': string, 'is_login': is_login, 'user_data': user_data})
 
 def detail(request):
     
@@ -127,11 +135,13 @@ def action_login(request):
             print('user_name = %s' % user_name)
             data = {'user_id':user_id, 'user_name': user_name, 'user_token': token}
 
-            # 保存cookie
-            c = cookies.SimpleCookie()
-            c['is_login'] = 1
-            print('cookie= %s' % c)
+            # 保存登陆状态
 
+            # 设置session过期时间
+            request.session.set_expiry(300)
+
+            request.session['is_login'] = True
+            request.session['user_id'] = user_id
 
             res = {'code': 1, 'msg': '登陆成功！', 'data': data}
 
