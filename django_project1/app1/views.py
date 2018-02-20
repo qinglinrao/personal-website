@@ -75,23 +75,43 @@ def action_register(request):
         if not validateEmail(email):
             return JsonResponse({'code': '-1', 'msg': '邮箱格式错误'})
 
+        redis = Redis()
+        redis.link()
+        
+        # 防刷，不能用token，每次访问都不一样的。
+        key = REDIS_WEB_PREFIX + 'register_' + str(user_name)
+        print('key = %s' % key)
+        redis_token = redis.get(key)
+        print('redis_token = %s' % redis_token)
+        if redis_token:
+            res = {'code': '-1', 'msg': '不能重复提交'}
+            return JsonResponse(res)
+        else:
+            redis.set(key, 1, 3)
+
         t = time.time()
         t = int(t)
 
         data = User.objects.create(name=user_name, email=email, password=md5(str(md5(pwd)) + USER_SALT), ip=get_client_ip(request), add_time=t, last_time=t)
 
-        print('注册的用户数据：%s' % data)
-        # data = {'user_id': user_id, 'user_name': user_name, 'user_token': token}
-        #
-        # # 保存登陆状态--todo
-        #
-        # # 设置session过期时间
-        # request.session.set_expiry(300)
-        #
-        # request.session['is_login'] = True
-        # request.session['user_id'] = user_id
+        user_name = data.name
+        user_id = data.id
 
-        res = {'code': '1', 'msg': '注册成功！'}
+        rand_num = random.randint(100000, 999999)
+        token = uuid.uuid5(uuid.NAMESPACE_DNS, str(rand_num))
+        print('token = %s' % token)
+
+        data = {'user_id': user_id, 'user_name': user_name, 'user_token': token}
+
+        # 保存登陆状态--todo
+
+        # 设置session过期时间
+        request.session.set_expiry(300)
+
+        request.session['is_login'] = True
+        request.session['user_id'] = user_id
+
+        res = {'code': '1', 'msg': '注册成功！', 'data': data}
 
         return JsonResponse(res)
     res = {'code': '1', 'msg': '注册成功2！'}
@@ -134,6 +154,7 @@ def action_login(request):
         res = User.objects.filter(name=user_name, password=password)
         print('用户：%s' % res)
 
+        user_id = 0
         if(res):
 
             for r in res:
@@ -174,6 +195,7 @@ def action_login_out(request):
 
         try:
             del request.session['is_login']  # 不存在时报错
+            del request.session['user_id']  # 不存在时报错
         except KeyError:
             res = {'code': '1', 'msg': '退出登陆失败！'}
             return JsonResponse(res)
