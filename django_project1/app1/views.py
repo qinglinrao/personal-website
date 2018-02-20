@@ -78,11 +78,21 @@ def action_register(request):
         t = time.time()
         t = int(t)
 
-        User.objects.create(name=user_name, email=email, password=md5(str(md5(pwd)) + USER_SALT), ip=get_client_ip(request), add_time=t, last_time=t)
+        data = User.objects.create(name=user_name, email=email, password=md5(str(md5(pwd)) + USER_SALT), ip=get_client_ip(request), add_time=t, last_time=t)
+
+        print('注册的用户数据：%s' % data)
+        # data = {'user_id': user_id, 'user_name': user_name, 'user_token': token}
+        #
+        # # 保存登陆状态--todo
+        #
+        # # 设置session过期时间
+        # request.session.set_expiry(300)
+        #
+        # request.session['is_login'] = True
+        # request.session['user_id'] = user_id
 
         res = {'code': '1', 'msg': '注册成功！'}
-        # for key in request.POST:
-        #     print(key)
+
         return JsonResponse(res)
     res = {'code': '1', 'msg': '注册成功2！'}
     return JsonResponse(res)
@@ -152,6 +162,26 @@ def action_login(request):
 
     res = {'code': '1', 'msg': '登陆成功2！'}
     return JsonResponse(res)
+
+
+@csrf_protect
+def action_login_out(request):
+    # 判断是否登陆
+    is_login = request.session.get('is_login', False)
+    print('is_login = %s' % is_login)
+
+    if is_login:
+
+        try:
+            del request.session['is_login']  # 不存在时报错
+        except KeyError:
+            res = {'code': '1', 'msg': '退出登陆失败！'}
+            return JsonResponse(res)
+
+    res = {'code': '1', 'msg': '退出登陆成功！'}
+    return JsonResponse(res)
+
+
 
 # 判断邮箱格式
 def validateEmail(email):

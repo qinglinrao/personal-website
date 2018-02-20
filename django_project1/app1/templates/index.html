@@ -4,11 +4,11 @@
 	<!-- 展示栏 -->
 	<div class="jumbotron">
 	  <div class="container" align="center">
-		  <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">Hello，{% for item in user_data %}{{ item.name | default: "World" }}{% endfor %}
+		  <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">Hello，{% if user_data %}{% for item in user_data %}{{ item.name}}{% endfor %}{% else %}World{% endif %}
 
 </h2>
 		  <br>
-		  <div class="text-muted">与世界分享我的知识</div>
+		  <div class="text-muted">与世界分享你的知识</div>
 		  <br>
 		  <br>
 		  {% if not is_login %}
@@ -281,6 +281,7 @@
 				        $('#button_register').hide();
 				        $('#button_login').hide();
 				        $('#register_close').click();
+				        location.reload();
 						return;
 					}
 					alert(data.msg);
@@ -311,11 +312,20 @@
 				        alert('登陆成功！用户名是：' + data.data.user_name);
 //				        $('#button_register').hide();
 //				        $('#button_login').hide();
+						location.reload();
 						return;
 					}
 					alert(data.msg);
                 }
 			})
+    	});
+
+	// 退出登陆
+	$('#button_loginout').click(function () {
+	    	$.get("action_login_out/", function(result){
+					alert(result.msg);
+					location.reload();
+			  });
     	});
 </script>
 {% endblock %}
