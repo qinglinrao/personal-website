@@ -77,17 +77,17 @@ def action_register(request):
 
         redis = Redis()
         redis.link()
-        
+
         # 防刷，不能用token，每次访问都不一样的。
         key = REDIS_WEB_PREFIX + 'register_' + str(user_name)
         print('key = %s' % key)
         redis_token = redis.get(key)
         print('redis_token = %s' % redis_token)
         if redis_token:
-            res = {'code': '-1', 'msg': '不能重复提交'}
+            res = {'code': '-1', 'msg': '300秒内不能重复注册'}
             return JsonResponse(res)
         else:
-            redis.set(key, 1, 3)
+            redis.set(key, 1, 300)
 
         t = time.time()
         t = int(t)
