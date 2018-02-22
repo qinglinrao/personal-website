@@ -3,3 +3,6 @@ from .models import User
 
 # Register your models here.
 admin.site.register(User)
+admin.site.register(Article)
+admin.site.register(category)
+admin.site.register(comment)
