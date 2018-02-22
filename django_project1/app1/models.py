@@ -21,9 +21,13 @@ class Article(models.Model):
     brief = models.TextField(u'简要')
     #content = models.TextField(u'内容')
     # 整合百度的ueditor编辑器。
-    content = UEditorField('内容', height=300, width=1000,
-                           default=u'', blank=True, imagePath="uploads/images/",
-                           toolbars='besttome', filePath='uploads/files/')
+    # content = UEditorField(u'内容', height=300, width=1000,
+    #                        default=u'默认内容', blank=True, imagePath="uploads/images/",
+    #                        toolbars='besttome', filePath='uploads/files/')content = UEditorField(u'内容', height=300, width=1000,
+    #                        default=u'默认内容', blank=True, imagePath="uploads/images/",
+    #                        toolbars='besttome', filePath='uploads/files/')
+    # 这里有问题--todo
+    content = UEditorField(u'内容')
 
     cate_id = models.IntegerField(u'分类id')
     source_name = models.CharField(u'来源网站名称', max_length=50)

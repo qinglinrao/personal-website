@@ -21,6 +21,7 @@ from app1 import views as app1_views
 from DjangoUeditor import urls as DjangoUeditor_urls
 
 from django.conf import settings
+from django.conf.urls import include, url
 
 urlpatterns = [
     # 新增一个应用的页面
@@ -33,7 +34,7 @@ urlpatterns = [
     path('action_login/', app1_views.action_login),
     # 退出登陆
     path('action_login_out/', app1_views.action_login_out),
-    url(r'^ueditor/', include('DjangoUeditor.urls' )),
+    url('ueditor/', include(DjangoUeditor_urls)),
 ]
 
 if settings.DEBUG:
