@@ -1,34 +1,32 @@
 {% extends 'public/base.html' %}
 
 {% block content %}
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span12">
-			<div class="hero-unit">
-				<p>
-					Python sys的用法
-				</p>
-				<p>
-					这是一个可视化布局模板, 你可以点击模板里的文字进行修改, 也可以通过点击弹出的编辑框进行富文本修改. 拖动区块能实现排序.
-				</p>
-				<p>
-					<span>这是一个可视化布局模板, 你可以点击模板里的文字进行修改, 也可以通过点击弹出的编辑框进行富文本修改. 拖动区块能实现排序.</span>
-				</p>
-				<p>
-					<span>这是一个可视化布局模板, 你可以点击模板里的文字进行修改, 也可以通过点击弹出的编辑框进行富文本修改. 拖动区块能实现排序.</span>
-				</p>
-				<p>
-					<span>这是一个可视化布局模板, 你可以点击模板里的文字进行修改, 也可以通过点击弹出的编辑框进行富文本修改. 拖动区块能实现排序.</span>
-				</p>
-				<p>
-					<span>这是一个可视化布局模板, 你可以点击模板里的文字进行修改, 也可以通过点击弹出的编辑框进行富文本修改. 拖动区块能实现排序.</span>
-				</p>
-				<p>
-					<span>这是一个可视化布局模板, 你可以点击模板里的文字进行修改, 也可以通过点击弹出的编辑框进行富文本修改. 拖动区块能实现排序.</span>
-				</p>
+<!--<div class="container-fluid">-->
+	<!--<div class="row-fluid">-->
+		<!--<div class="span12">-->
+			<!--<div class="hero-unit">-->
+				<!--<p>-->
+					<!--{{article.title}}-->
+				<!--</p>-->
+				<!--{{article.content}}-->
 
+			<!--</div>-->
+		<!--</div>-->
+	<!--</div>-->
+<!--</div>-->
+
+<div class="container">
+		<div class="row clearfix">
+			<div class="col-md-12 column">
+				<h2>
+					{{ article.title}}
+				</h2>
+				<p>
+					{{ article.content}}
+				</p>
 			</div>
+
 		</div>
 	</div>
-</div>
+
 {% endblock %}

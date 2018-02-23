@@ -1,6 +1,7 @@
 from django.db import models
-from DjangoUeditor.models import UEditorField
+# from DjangoUeditor.models import UEditorField
 # Create your models here.
+from ckeditor.fields import RichTextField
 
 # 用户表
 class User(models.Model):
@@ -18,21 +19,14 @@ class Article(models.Model):
 
     title = models.CharField(u'标题', max_length=30)
     auther = models.CharField(u'作者', max_length=30)
-    brief = models.TextField(u'简要')
-    #content = models.TextField(u'内容')
-    # 整合百度的ueditor编辑器。
-    # content = UEditorField(u'内容', height=300, width=1000,
-    #                        default=u'默认内容', blank=True, imagePath="uploads/images/",
-    #                        toolbars='besttome', filePath='uploads/files/')content = UEditorField(u'内容', height=300, width=1000,
-    #                        default=u'默认内容', blank=True, imagePath="uploads/images/",
-    #                        toolbars='besttome', filePath='uploads/files/')
-    # 这里有问题--todo
-    content = UEditorField(u'内容')
+    brief = models.TextField(u'简要', default='')
+    # content = RichTextField()
+    content = models.TextField(u'简要')
 
     cate_id = models.IntegerField(u'分类id')
-    source_name = models.CharField(u'来源网站名称', max_length=50)
-    source_url = models.CharField(u'来源网站url', max_length=50)
-    source_auther = models.CharField(u'来源网站作者', max_length=30)
+    source_name = models.CharField(u'来源网站名称', max_length=50, default='')
+    source_url = models.CharField(u'来源网站url', max_length=50, default='')
+    source_auther = models.CharField(u'来源网站作者', max_length=30, default='1')
     type = models.IntegerField(u'转载或者原创')
     pub_date = models.DateTimeField(u'发表时间', auto_now_add=True, editable=True)
     update_time = models.DateTimeField(u'更新时间', auto_now=True, null=True)

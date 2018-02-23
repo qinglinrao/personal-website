@@ -7,7 +7,7 @@ from django.shortcuts import render
 import json, re, sys
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from app1.models import User
+from app1.models import User, Article
 import json, hashlib
 import time
 import random, uuid
@@ -45,13 +45,28 @@ def index(request):
 
     # 使用视图模板
     string = "谢谢雷经理，这个是我的简历。"
-    return render(request, 'index.html', {'string': string, 'is_login': is_login, 'user_data': user_data})
+
+    # 获取文章数据
+    article_data = Article.objects.filter()
+    print('article_data = %s' % article_data)
+
+    return render(request, 'index.html', {'string': string, 'is_login': is_login, 'user_data': user_data, 'article_data': article_data})
 
 def detail(request):
-    
+    id = email = request.GET['id']
+    print('文章ID = %s' % id)
+
+    # 获取文章数据
+    article = Article.objects.filter(id=id)
+    print('文章数据 = %s' % article)
     # 使用视图模板
     string = "谢谢雷经理，这个是我的简历。"
-    return render(request, 'detail.html', {'string': string})
+
+    # 判断是否登陆
+    is_login = request.session.get('is_login', False)
+    print('is_login = %s' % is_login)
+
+    return render(request, 'detail.html', {'string': string, 'article': article[0], 'is_login': is_login})
 
 @csrf_protect
 def action_register(request):
@@ -106,7 +121,7 @@ def action_register(request):
         # 保存登陆状态--todo
 
         # 设置session过期时间
-        request.session.set_expiry(300)
+        request.session.set_expiry(3600)
 
         request.session['is_login'] = True
         request.session['user_id'] = user_id
@@ -169,7 +184,7 @@ def action_login(request):
             # 保存登陆状态
 
             # 设置session过期时间
-            request.session.set_expiry(300)
+            request.session.set_expiry(3600)
 
             request.session['is_login'] = True
             request.session['user_id'] = user_id

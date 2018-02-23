@@ -34,7 +34,7 @@ urlpatterns = [
     path('action_login/', app1_views.action_login),
     # 退出登陆
     path('action_login_out/', app1_views.action_login_out),
-    url('ueditor/', include(DjangoUeditor_urls)),
+    path('ckeditor', include('ckeditor_uploader.urls')),
 ]
 
 if settings.DEBUG:

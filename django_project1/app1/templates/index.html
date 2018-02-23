@@ -4,6 +4,7 @@
 	<!-- 展示栏 -->
 	<div class="jumbotron">
 	  <div class="container" align="center">
+		  <p style="color:red;font-size: 8px;">站点是过年前利用工作以外的业余时间建立的，内容还在完善中……</p>
 		  <h2 class="text-info" style="font-family:宋体;font-weight:bold;font-size:49px">Hello，{% if user_data %}{% for item in user_data %}{{ item.name}}{% endfor %}{% else %}World{% endif %}
 
 </h2>
@@ -20,157 +21,28 @@
 	</div>
 
 	<!-- 中间文章内容 -->
-	<div class="container">
-		<div class="row clearfix">
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-		</div>
-	</div>
+
 
 	<div class="container">
 		<div class="row clearfix">
+			{% for article in article_data %}
 			<div class="col-md-4 column">
 				<h2>
-					Heading
+					{{ article.title}}
 				</h2>
 				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+					{{ article.brief}}
 				</p>
 				<p>
-					 <a class="btn" href="#">View details »</a>
+					 <a class="btn" href="detail/?id={{ article.id }}">查看详情 »</a>
 				</p>
 			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
+			{% endfor %}
+
 		</div>
 	</div>
 
-	<div class="container">
-		<div class="row clearfix">
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-		</div>
-	</div>
 
-	<div class="container">
-		<div class="row clearfix">
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-			<div class="col-md-4 column">
-				<h2>
-					Heading
-				</h2>
-				<p>
-					Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
-				</p>
-				<p>
-					 <a class="btn" href="#">View details »</a>
-				</p>
-			</div>
-		</div>
-	</div>
 
 
 
