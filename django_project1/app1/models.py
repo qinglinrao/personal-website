@@ -24,7 +24,7 @@ class Article(models.Model):
 
     title = models.CharField(u'标题', max_length=30)
     auther = models.CharField(u'作者', max_length=30)
-    brief = models.TextField(u'简要', default='')
+    brief = tinymce.models.HTMLField(verbose_name='简要')
     # content = RichTextField('正文')
     # content = models.TextField(u'内容')
     content = tinymce.models.HTMLField(verbose_name='文章详情')

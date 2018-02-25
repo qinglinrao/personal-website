@@ -28,10 +28,10 @@
 			{% for article in article_data %}
 			<div class="col-md-4 column">
 				<h2>
-					{{ article.title}}
+					{{ article.title | safe}}
 				</h2>
 				<p>
-					{{ article.brief}}
+					{{ article.brief | safe}}
 				</p>
 				<p>
 					 <a class="btn" href="detail/?id={{ article.id }}">查看详情 »</a>
