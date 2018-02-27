@@ -64,6 +64,10 @@ def detail(request):
 
     # 判断是否登陆
     is_login = request.session.get('is_login', False)
+
+    # 生成验证码
+    get_code_img()
+    
     print('is_login = %s' % is_login)
 
     return render(request, 'detail.html', {'string': string, 'article': article[0], 'is_login': is_login})
@@ -242,3 +246,32 @@ def get_client_ip(request):
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
+
+
+def get_code_img():
+    from PIL import Image, ImageDraw, ImageFont, ImageFilter
+    # 实例一个图片对象240 x 60:
+    width = 60 * 4
+    height = 60
+    # 图片颜色
+    clo = (43, 34, 88)  # 我觉得是紫蓝色
+    image = Image.new('RGB', (width, height), clo)
+
+    # 创建Font对象:
+    # 字体文件可以使用操作系统的，也可以网上下载
+    font = ImageFont.truetype('static/font/Androgyne_TB.otf', 36)
+
+    # 创建Draw对象:
+    draw = ImageDraw.Draw(image)
+
+    # 输出文字,随机字体--todo
+    str1 = "Pyth"
+    w = 4  # 距离图片左边距离
+    h = 10  # 距离图片上边距离
+    draw.text((w, h), str1, font=font)
+    # 模糊:
+    image.filter(ImageFilter.BLUR)
+    code_name = 'test_code_img.jpg'
+    save_dir = './static/images/code_img/{}'.format(code_name)
+    image.save(save_dir, 'jpeg')
+    print("已保存图片: {}".format(save_dir))
