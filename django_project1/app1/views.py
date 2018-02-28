@@ -66,7 +66,7 @@ def detail(request):
     is_login = request.session.get('is_login', False)
 
     # 生成验证码
-    get_code_img()
+    # get_code_img()
     
     print('is_login = %s' % is_login)
 
@@ -248,30 +248,52 @@ def get_client_ip(request):
     return ip
 
 
-def get_code_img():
+def captcha(request):
     from PIL import Image, ImageDraw, ImageFont, ImageFilter
-    # 实例一个图片对象240 x 60:
-    width = 60 * 4
-    height = 60
+    import random
+    from io import BytesIO
+    # 实例一个图片对象120 x 60:
+    width = 60
+    height = 30
     # 图片颜色
     clo = (43, 34, 88)  # 我觉得是紫蓝色
     image = Image.new('RGB', (width, height), clo)
 
     # 创建Font对象:
     # 字体文件可以使用操作系统的，也可以网上下载
-    font = ImageFont.truetype('static/font/Androgyne_TB.otf', 36)
+    font = ImageFont.truetype('static/font/Androgyne_TB.otf', 20)
 
     # 创建Draw对象:
     draw = ImageDraw.Draw(image)
 
-    # 输出文字,随机字体--todo
-    str1 = "Pyth"
+    # 输出文字,随机字体
+    str = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+    str1 = random.sample(str, 4)
+    str1 = ''.join(str1)
+    # 保存到session
+    request.session['captcha'] = str1.lower()
+
     w = 4  # 距离图片左边距离
     h = 10  # 距离图片上边距离
+
     draw.text((w, h), str1, font=font)
     # 模糊:
     image.filter(ImageFilter.BLUR)
+
+    # 干扰线颜色。
+    linecolor = ((255, 0, 0), (0, 255, 0), (0, 0, 255))
+
+    # 绘制干扰线
+
+    for i in linecolor:
+        begin = (random.randint(0, width), random.randint(0, height))
+        end = (random.randint(0, width), random.randint(0, height))
+        draw.line([begin, end], fill=i)
+
     code_name = 'test_code_img.jpg'
-    save_dir = './static/images/code_img/{}'.format(code_name)
-    image.save(save_dir, 'jpeg')
-    print("已保存图片: {}".format(save_dir))
+    # save_dir = './static/images/code_img/{}'.format(code_name)
+    buf = BytesIO()
+    image.save(buf, 'jpeg')
+    # print("已保存图片: {}".format(save_dir))
+    # image_data = open(save_dir, "rb").read()
+    return HttpResponse(buf.getvalue(), content_type="image/png")

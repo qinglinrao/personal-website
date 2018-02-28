@@ -34,6 +34,8 @@ urlpatterns = [
     path('action_login/', app1_views.action_login),
     # 退出登陆
     path('action_login_out/', app1_views.action_login_out),
+    # 验证码
+    path('captcha/', app1_views.captcha),
     path('ckeditor', include('ckeditor_uploader.urls')),
 ]
 

@@ -18,7 +18,7 @@
 <div style="border: 1px solid gainsboro;background-color: lavender;">
 <div class="container" style="margin-top:2rem;margin-bottom:2rem;">
 		<div class="row clearfix">
-			<div class="col-md-12 column">
+			<div class="col-md-12 column" style="word-wrap: break-word;;">
 				<h2>
 					{{ article.title | safe}}
 				</h2>
@@ -36,7 +36,11 @@
 		<div class="span8">
 			<form>
 				<fieldset>
-					<legend>评论</legend><input type="text" /> <label class="checkbox"><input type="checkbox" /> 勾选同意</label> <button id='comment_action' class="btn" type="submit">提交</button>
+					<legend>评论</legend><input type="text" />
+					<legend>验证码</legend><input type="text" />
+					<legend><img onclick="this.setAttribute('src','/captcha/?nocache='+Math.random());" src="/captcha/" alt="Captcha"/></legend>
+					<!--<label class="checkbox"><input type="checkbox" /> 勾选同意</label>-->
+					<button id='comment_action' class="btn" type="submit">提交</button>
 				</fieldset>
 				<fieldset>
 					<legend>评论列表</legend>
