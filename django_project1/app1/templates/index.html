@@ -133,13 +133,13 @@
 			var user_name = $('#user_name').val();
 			var pwd = $('#pwd').val();
 			if(!email){
-			    alert("邮箱不能为空。");return;
+			    alert("邮箱不能为空。");return false;
 			}
 			if(!user_name){
-			    alert("昵称不能为空。");return;
+			    alert("昵称不能为空。");return false;
 			}
 			if(!pwd){
-			    alert("密码不能为空。");return;
+			    alert("密码不能为空。");return false;
 			}
 	    	$.ajax({
 				type: "POST",
@@ -168,10 +168,10 @@
 			var username = $('#username').val();
 			var password = $('#password').val();
 			if(!username){
-			    alert("昵称不能为空。");return;
+			    alert("昵称不能为空。");return false;
 			}
 			if(!pwd){
-			    alert("密码不能为空。");return;
+			    alert("密码不能为空。");return false;
 			}
 	    	$.ajax({
 				type: "POST",
@@ -185,7 +185,7 @@
 //				        $('#button_register').hide();
 //				        $('#button_login').hide();
 						location.reload();
-						return;
+						return false;
 					}
 					alert(data.msg);
                 }

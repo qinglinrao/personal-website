@@ -37,6 +37,8 @@ urlpatterns = [
     # 验证码
     path('captcha/', app1_views.captcha),
     path('ckeditor', include('ckeditor_uploader.urls')),
+    # 提交评论
+    path('action_comment/', app1_views.action_comment),
 ]
 
 if settings.DEBUG:

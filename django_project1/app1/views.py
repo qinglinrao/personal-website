@@ -222,7 +222,18 @@ def action_login_out(request):
     res = {'code': '1', 'msg': '退出登陆成功！'}
     return JsonResponse(res)
 
+@csrf_protect
+def action_comment(request):
+    if request.method == 'POST':
+        content = request.POST['content']
+        code = request.POST['code']
+        print('content = %s' % content)
+        print('code = %s' % code)
+        if not content or not code:
+            return JsonResponse({'code': '-1', 'msg': '缺少参数'})
 
+    res = {'code': '1', 'msg': '评论成功！'}
+    return JsonResponse(res)
 
 # 判断邮箱格式
 def validateEmail(email):
@@ -247,7 +258,7 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
-
+# 获取验证码
 def captcha(request):
     from PIL import Image, ImageDraw, ImageFont, ImageFilter
     import random

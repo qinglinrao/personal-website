@@ -36,8 +36,8 @@
 		<div class="span8">
 			<form>
 				<fieldset>
-					<legend>评论</legend><input type="text" />
-					<legend>验证码</legend><input type="text" />
+					<legend>评论</legend><input type="text" id="content"/>
+					<legend>验证码</legend><input type="text" id="code"/>
 					<legend><img onclick="this.setAttribute('src','/captcha/?nocache='+Math.random());" src="/captcha/" alt="Captcha"/></legend>
 					<!--<label class="checkbox"><input type="checkbox" /> 勾选同意</label>-->
 					<button id='comment_action' class="btn" type="submit">提交</button>
@@ -54,9 +54,37 @@
 
 <script>
 
-	// 注册
+	// 评论
 	$('#comment_action').click(function () {
-	    alert('发表评论');
+	    var token = $.cookie('csrftoken');
+	    var content = $('#content').val();
+	    var code = $('#code').val();
+		if(!content){
+			alert("评论内容不能为空。");return false;
+		}
+		if(!code){
+			alert("验证码不能为空。");return false;
+		}
+		$.ajax({
+				type: "POST",
+				url: "action_comment/",
+				data: {content: content, code: code},
+				dataType: "json",
+				headers:{'X-CSRFToken': token},
+				success: function (data) {
+				    if(data.code == 1){
+				        alert(data.msg);
+//				        $('#button_register').hide();
+//				        $('#button_login').hide();
+//				        $('#register_close').click();
+				        location.reload();
+						return false;
+					}
+					alert(data.msg);
+				    return false;
+                }
+			})
+
 	});
 </script>
 {% endblock %}
