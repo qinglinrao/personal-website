@@ -36,9 +36,9 @@ urlpatterns = [
     path('action_login_out/', app1_views.action_login_out),
     # 验证码
     path('captcha/', app1_views.captcha),
-    path('ckeditor', include('ckeditor_uploader.urls')),
     # 提交评论
     path('action_comment/', app1_views.action_comment),
+    path('ckeditor', include('ckeditor_uploader.urls')),
 ]
 
 if settings.DEBUG:

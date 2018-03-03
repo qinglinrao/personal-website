@@ -50,10 +50,10 @@ def index(request):
     article_data = Article.objects.filter()
     print('article_data = %s' % article_data)
 
-    return render(request, 'index.html', {'string': string, 'is_login': is_login, 'user_data': user_data, 'article_data': article_data})
+    return render(request, 'index.html', {'string': string, 'is_login': is_login, 'user_data': user_data, 'article_data': article_data, 'index':1})
 
 def detail(request):
-    id = email = request.GET['id']
+    id = request.GET['id']
     print('文章ID = %s' % id)
 
     # 获取文章数据
@@ -70,7 +70,7 @@ def detail(request):
     
     print('is_login = %s' % is_login)
 
-    return render(request, 'detail.html', {'string': string, 'article': article[0], 'is_login': is_login})
+    return render(request, 'detail.html', {'string': string, 'article': article[0], 'is_login': is_login, 'id': id})
 
 @csrf_protect
 def action_register(request):
@@ -224,13 +224,22 @@ def action_login_out(request):
 
 @csrf_protect
 def action_comment(request):
+    id = request.GET['id']
+
     if request.method == 'POST':
         content = request.POST['content']
         code = request.POST['code']
-        print('content = %s' % content)
-        print('code = %s' % code)
+
+        is_login = request.session.get('is_login', False)
+
+        if not is_login:
+            return JsonResponse({'code': '-1', 'msg': '请先登陆'})
+
         if not content or not code:
             return JsonResponse({'code': '-1', 'msg': '缺少参数'})
+
+        if code != request.session['captcha']:
+            return JsonResponse({'code': '-1', 'msg': '验证码错误'})
 
     res = {'code': '1', 'msg': '评论成功！'}
     return JsonResponse(res)

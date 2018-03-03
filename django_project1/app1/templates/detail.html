@@ -65,9 +65,10 @@
 		if(!code){
 			alert("验证码不能为空。");return false;
 		}
+
 		$.ajax({
 				type: "POST",
-				url: "action_comment/",
+				url: "/action_comment/?id={{ id }}",
 				data: {content: content, code: code},
 				dataType: "json",
 				headers:{'X-CSRFToken': token},
@@ -77,13 +78,13 @@
 //				        $('#button_register').hide();
 //				        $('#button_login').hide();
 //				        $('#register_close').click();
-				        location.reload();
+				        //location.reload();
 						return false;
 					}
-					alert(data.msg);
+					alert('不成功');
 				    return false;
                 }
-			})
+			});
 
 	});
 </script>
