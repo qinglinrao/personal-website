@@ -7,7 +7,7 @@ from django.shortcuts import render
 import json, re, sys
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt,csrf_protect
-from app1.models import User, Article
+from app1.models import User, Article, Comment
 import json, hashlib
 import time
 import random, uuid
@@ -225,7 +225,7 @@ def action_login_out(request):
 @csrf_protect
 def action_comment(request):
     id = request.GET['id']
-
+    content = 0
     if request.method == 'POST':
         content = request.POST['content']
         code = request.POST['code']
@@ -241,7 +241,41 @@ def action_comment(request):
         if code != request.session['captcha']:
             return JsonResponse({'code': '-1', 'msg': '验证码错误'})
 
-    res = {'code': '1', 'msg': '评论成功！'}
+    # 添加评论操作
+    redis = Redis()
+    redis.link()
+    user_id = request.session.get('user_id', False)
+    print('user_id = %s' % user_id)
+    # 防刷，不能用token，每次访问都不一样的。
+    key = REDIS_WEB_PREFIX + 'comment_' + str(user_id)
+    print('key = %s' % key)
+    redis_token = redis.get(key)
+    print('redis_token = %s' % redis_token)
+    if redis_token:
+        res = {'code': '-1', 'msg': '30秒内不能重复评论'}
+        return JsonResponse(res)
+    else:
+        redis.set(key, 1, 30)
+
+    res = User.objects.filter(id=user_id)
+    print('用户：%s' % res)
+
+    if (res):
+        for r in res:
+            user_name = r.name
+            user_id = r.id
+    else:
+        res = {'code': '-1', 'msg': '用户不存在'}
+        return JsonResponse(res)
+
+    t = time.time()
+    t = int(t)
+
+    data = Comment.objects.create(content=content, article_id=id, user_id=user_id,
+                                  father_id=0, add_time=t)
+
+    data = {'content': data.content, 'user_name': user_name, 'add_time': data.add_time}
+    res = {'code': '1', 'msg': '评论成功！', 'data': data}
     return JsonResponse(res)
 
 # 判断邮箱格式

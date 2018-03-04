@@ -41,7 +41,7 @@ class Article(models.Model):
         return self.title
 
 # 分类表
-class category(models.Model):
+class Category(models.Model):
     name = models.CharField(u'分类名称', max_length=30)
     father_id = models.IntegerField(u'父级分类id')
 
@@ -49,7 +49,7 @@ class category(models.Model):
         return self.name
 
 # 评论表
-class comment(models.Model):
+class Comment(models.Model):
     content = models.CharField(u'评论内容', max_length=30)
     article_id = models.IntegerField(u'文章id')
     user_id = models.IntegerField(u'用户id')

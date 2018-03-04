@@ -40,7 +40,7 @@
 					<legend>验证码</legend><input type="text" id="code"/>
 					<legend><img onclick="this.setAttribute('src','/captcha/?nocache='+Math.random());" src="/captcha/" alt="Captcha"/></legend>
 					<!--<label class="checkbox"><input type="checkbox" /> 勾选同意</label>-->
-					<button id='comment_action' class="btn" type="submit">提交</button>
+					<button id='comment_action' class="btn" type="button">提交</button>
 				</fieldset>
 				<fieldset>
 					<legend>评论列表</legend>
@@ -81,7 +81,8 @@
 				        //location.reload();
 						return false;
 					}
-					alert('不成功');
+					alert(data.msg);
+				    location.reload();
 				    return false;
                 }
 			});
