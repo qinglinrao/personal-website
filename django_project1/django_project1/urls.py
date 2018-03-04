@@ -18,6 +18,7 @@ from django.urls import path
 
 # 新增一个应用的页面
 from app1 import views as app1_views
+from app1 import php_views as php_views
 from DjangoUeditor import urls as DjangoUeditor_urls
 
 from django.conf import settings
@@ -39,6 +40,8 @@ urlpatterns = [
     # 提交评论
     path('action_comment/', app1_views.action_comment),
     path('ckeditor', include('ckeditor_uploader.urls')),
+    # php实验室
+    path('php_lab/', php_views.php_lab),
 ]
 
 if settings.DEBUG:
