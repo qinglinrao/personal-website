@@ -57,20 +57,24 @@ def detail(request):
     print('文章ID = %s' % id)
 
     # 获取文章数据
-    article = Article.objects.filter(id=id)
+    article = Article.objects.filter(id=id).order_by('-id')
     print('文章数据 = %s' % article)
     # 使用视图模板
     string = "谢谢雷经理，这个是我的简历。"
 
     # 判断是否登陆
     is_login = request.session.get('is_login', False)
+    print('is_login = %s' % is_login)
 
     # 生成验证码
     # get_code_img()
-    
-    print('is_login = %s' % is_login)
 
-    return render(request, 'detail.html', {'string': string, 'article': article[0], 'is_login': is_login, 'id': id})
+    # 查询评论列表
+    # 排序无效？--todo
+    comment_data = Comment.objects.filter(article_id=id)
+    print('评论数据 = %s' % comment_data)
+
+    return render(request, 'detail.html', {'string': string, 'article': article[0], 'comment_data':comment_data, 'is_login': is_login, 'id': id})
 
 @csrf_protect
 def action_register(request):
@@ -271,7 +275,7 @@ def action_comment(request):
     t = time.time()
     t = int(t)
 
-    data = Comment.objects.create(content=content, article_id=id, user_id=user_id,
+    data = Comment.objects.create(content=content, article_id=id, user_id=user_id,user_name=user_name,
                                   father_id=0, add_time=t)
 
     data = {'content': data.content, 'user_name': user_name, 'add_time': data.add_time}

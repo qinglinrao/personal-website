@@ -42,11 +42,18 @@
 					<!--<label class="checkbox"><input type="checkbox" /> 勾选同意</label>-->
 					<button id='comment_action' class="btn" type="button">提交</button>
 				</fieldset>
-				<fieldset>
+
+				<fieldset id="comment_list">
 					<legend>评论列表</legend>
-					<p>测试评论测试评论测试评论测试评论测试评论</p>
-					<p>测试评论测试评论测试评论测试评论测试评论</p>
+					{% if comment_data%}
+					{% for comment in comment_data %}
+					<p>{{comment.user_name}}：{{comment.content}}（时间：{{comment.add_time}}）</p>
+					{% endfor %}
+					{% else %}
+					<p>还没有评论哦，快来抢沙发！</p>
+					{% endif %}
 				</fieldset>
+
 			</form>
 		</div>
 	</div>
@@ -72,16 +79,17 @@
 				data: {content: content, code: code},
 				dataType: "json",
 				headers:{'X-CSRFToken': token},
-				success: function (data) {
-				    if(data.code == 1){
-				        alert(data.msg);
-//				        $('#button_register').hide();
-//				        $('#button_login').hide();
-//				        $('#register_close').click();
-				        //location.reload();
+				success: function (res) {
+				    if(res.code == 1){
+				        var str1 = "<p>"+res.data.user_name+"："+res.data.content+"（"+res.data.add_time+"）</p>";
+						$("#comment_list").append(str1);
+						$('#content').val("");
+						$('#code').val("");
+				        alert(res.msg);
+				        location.reload();
 						return false;
 					}
-					alert(data.msg);
+					alert(res.msg);
 				    location.reload();
 				    return false;
                 }

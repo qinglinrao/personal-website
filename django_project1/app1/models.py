@@ -50,8 +50,9 @@ class Category(models.Model):
 
 # 评论表
 class Comment(models.Model):
-    content = models.CharField(u'评论内容', max_length=30)
+    content = models.CharField(u'评论内容', max_length=300)
     article_id = models.IntegerField(u'文章id')
+    user_name = models.CharField(u'用户名称', max_length=30, default='')
     user_id = models.IntegerField(u'用户id')
     father_id = models.IntegerField(u'父级评论id')
     add_time = models.IntegerField(u'添加时间')
